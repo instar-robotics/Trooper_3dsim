@@ -1,0 +1,2 @@
+rosrun tf static_transform_publisher 0.0 0.0 0.0 0.0 0.0 0.0 map trooper__chassis 100&
+roslaunch trooper.launch model:=model.urdf

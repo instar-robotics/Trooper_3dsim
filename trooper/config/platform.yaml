@@ -1,0 +1,4 @@
+type: "position_controllers/JointPositionController"
+joint: trooper__platform_to_chassis
+pid: {p: 2000.0, i: 50, d: 200.0}
+
