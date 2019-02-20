@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
+<robot name="trooper" xmlns:xacro="http://ros.org/wiki/xacro">
 
-<robot name="trooper">
 
 <!-- Color materials (Compatible with Rviz but not yet with Gazebo) -->
 	<material name="greenish">
@@ -28,13 +28,13 @@
     <collision>
       <origin rpy="0  0  0" xyz="0    0    0"/>
       <geometry>
-        <mesh filename="package://trooper/meshes/stl/chassis.stl" scale="0.01 0.01 0.01"/>
+        <mesh filename="package://trooper_description/meshes/stl/chassis.stl" scale="0.01 0.01 0.01"/>
       </geometry>
     </collision>
     <visual>
       <origin rpy="0  0  0" xyz="0    0    0"/>
       <geometry>
-        <mesh filename="package://trooper/meshes/stl/chassis.stl" scale="0.01 0.01 0.01"/>
+        <mesh filename="package://trooper_description/meshes/stl/chassis.stl" scale="0.01 0.01 0.01"/>
       </geometry>
 			<material name="whiteish"/>
     </visual>
@@ -64,7 +64,7 @@
     <visual>
       <origin rpy="0  0  0" xyz="0  0  0"/>
       <geometry>
-        <mesh filename="package://trooper/meshes/stl/drive_wheel.stl" scale="0.01 0.01 0.01"/>
+        <mesh filename="package://trooper_description/meshes/stl/drive_wheel.stl" scale="0.01 0.01 0.01"/>
       </geometry>
 			<material name="rubber"/>
     </visual>
@@ -97,7 +97,7 @@
     <visual>
       <origin rpy="0  0  0" xyz="0  0  0"/>
       <geometry>
-        <mesh filename="package://trooper/meshes/stl/drive_wheel.stl" scale="0.01 0.01 0.01"/>
+        <mesh filename="package://trooper_description/meshes/stl/drive_wheel.stl" scale="0.01 0.01 0.01"/>
       </geometry>
 			<material name="rubber"/>
     </visual>
@@ -142,13 +142,13 @@
     <collision>
       <origin rpy="0  0  0" xyz="0.09  0    0"/>
       <geometry>
-        <mesh filename="package://trooper/meshes/stl/platform_5x4L.stl" scale="0.01 0.01 0.01"/>
+        <mesh filename="package://trooper_description/meshes/stl/platform_5x4L.stl" scale="0.01 0.01 0.01"/>
       </geometry>
     </collision>
     <visual>
       <origin rpy="0  0  0" xyz="0.09  0    0"/>
       <geometry>
-        <mesh filename="package://trooper/meshes/stl/platform_5x4L.stl" scale="0.01 0.01 0.01"/>
+        <mesh filename="package://trooper_description/meshes/stl/platform_5x4L.stl" scale="0.01 0.01 0.01"/>
       </geometry>
 			<material name="greenish"/>
     </visual>
@@ -161,32 +161,29 @@
 
 
 
+
 <!-- SENSORS -->
-  <link name="trooper__hokuyo__link">
-    <inertial>
-      <mass value="0.1"/>
-      <origin rpy="0  0  0" xyz="0  0  0"/>
-      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
-    </inertial>
-    <collision>
-      <origin rpy="0  0  0" xyz="0      0     -0.0145"/>
-      <geometry>
-        <box size="0.05 0.05 0.041"/>
-      </geometry>
-    </collision>
-    <collision>
-      <origin rpy="0  0  0" xyz="0      0      0.0205"/>
-      <geometry>
-        <cylinder length="0.029" radius="0.021"/>
-      </geometry>
-    </collision>
-    <visual>
-      <origin rpy="0  0  0" xyz="0  0  0"/>
-      <geometry>
-        <box size="0.05 0.05 0.041"/>
-      </geometry>
-    </visual>
-  </link>
+
+	<link name="hokuyo_link">
+		<collision>
+		  <origin xyz="0 0 0" rpy="0 0 0"/>
+		  <geometry>
+		    <box size="0.05 0.05 0.041"/>
+		  </geometry>
+		</collision>
+		<visual>
+		  <origin xyz="0 0 0" rpy="0 0 0"/>
+		  <geometry>
+		    <cylinder length="0.029" radius="0.021"/>
+		  </geometry>
+		</visual>
+		<inertial>
+		  <mass value="0.1" />
+		  <origin xyz="0 0 0" rpy="0 0 0"/>
+		  <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1" />
+		</inertial>
+	</link>
+
 
 
 
@@ -219,7 +216,6 @@
     <axis xyz="0 0 0"/>
   </joint>
 
-
 	<joint name="trooper__platform_to_chassis" type="continuous">
     <parent link="trooper__chassis"/>
     <child link="trooper__platform"/>
@@ -228,13 +224,57 @@
     <limit effort="10" velocity="100"/>
   </joint>
 
-
-	<joint name="trooper__hokuyo_joint" type="fixed">
+  <property name="hokuyo_link" value="0.15" />
+  <joint name="hokuyo_joint" type="fixed">
+    <axis xyz="0 1 0" />
+    <origin xyz="0.28 0 0.08" rpy="0 0 0"/>
     <parent link="trooper__chassis"/>
-    <child link="trooper__hokuyo__link"/>
-    <origin rpy="0  0  0" xyz="0.2    0     0.115"/>
-    <axis xyz="0  0  0"/>
+    <child link="hokuyo_link"/>
   </joint>
+
+
+
+
+
+
+<!--  GAZEBO plugin for Laser -->	
+  <gazebo reference="hokuyo_link">
+    <sensor type="ray" name="head_hokuyo_sensor">
+      <pose>0 0 0 0 0 0</pose>
+      <visualize>true</visualize>
+      <update_rate>30</update_rate>
+      <ray>
+        <scan>
+          <horizontal>
+            <samples>60</samples>
+            <resolution>1</resolution>
+            <min_angle>-1.5707</min_angle>
+            <max_angle>1.5707</max_angle>
+          </horizontal>
+        </scan>
+        <range>
+          <min>0.10</min>
+          <max>30.0</max>
+          <resolution>0.01</resolution>
+        </range>
+        <noise>
+          <type>gaussian</type>
+          <!-- Noise parameters based on published spec for Hokuyo laser
+               achieving "+-30mm" accuracy at range < 10m.  A mean of 0.0m and
+               stddev of 0.01m will put 99.7% of samples within 0.03m of the true
+               reading. -->
+          <mean>0.0</mean>
+          <stddev>0.01</stddev>
+        </noise>
+      </ray>
+      <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so">
+        <topicName>/laser/scan</topicName>
+        <frameName>hokuyo_link</frameName>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+
 
 
 

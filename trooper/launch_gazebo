@@ -1,3 +1,0 @@
-killall gzserver
-killall gzclient
-roslaunch gazebo.launch
