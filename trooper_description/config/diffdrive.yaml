@@ -4,7 +4,7 @@ publish_rate: 50
 left_wheel: ['trooper__left_wheel_to_chassis']
 right_wheel: ['trooper__right_wheel_to_chassis']
 
-wheel_separation : 0.7
+wheel_separation : 0.66
 wheel_radius : 0.15
 
 
@@ -21,12 +21,12 @@ base_frame_id: trooper__chassis
 linear:
   x:
     has_velocity_limits    : true
-    max_velocity           : 4   # m/s
+    max_velocity           : 3   # m/s
     has_acceleration_limits: true
-    max_acceleration       : 0.6   # m/s^2
+    max_acceleration       : 1   # m/s^2
 angular:
   z:
     has_velocity_limits    : true
-    max_velocity           : 30   # rad/s
+    max_velocity           : 2   # rad/s
     has_acceleration_limits: true
-    max_acceleration       : 6.0   # rad/s^2
+    max_acceleration       : 2   # rad/s^2

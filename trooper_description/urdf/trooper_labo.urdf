@@ -28,13 +28,13 @@
     <collision>
       <origin rpy="0  0  0" xyz="0    0    0"/>
       <geometry>
-        <mesh filename="package://trooper_description/meshes/stl/chassis.stl" scale="0.01 0.01 0.01"/>
+        <mesh filename="package://trooper_description/meshes/stl/chassis_no_guardrail.stl" scale="0.01 0.01 0.01"/>
       </geometry>
     </collision>
     <visual>
       <origin rpy="0  0  0" xyz="0    0    0"/>
       <geometry>
-        <mesh filename="package://trooper_description/meshes/stl/chassis.stl" scale="0.01 0.01 0.01"/>
+        <mesh filename="package://trooper_description/meshes/stl/chassis_no_guardrail.stl" scale="0.01 0.01 0.01"/>
       </geometry>
 			<material name="whiteish"/>
     </visual>
@@ -157,7 +157,6 @@
 	<gazebo reference="trooper__magasin">
 		<material>Gazebo/Green</material>
 	</gazebo>
-
 
 
 

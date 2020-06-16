@@ -21,7 +21,7 @@
 
 
 	<!-- Path to URDF file -->
-  <param name="robot_description" textfile="$(find trooper_description)/urdf/trooper.urdf" />
+  <param name="robot_description" textfile="$(find trooper_description)/urdf/trooper_labo.urdf" />
 
 
   <!-- push robot_description to factory and spawn robot in gazebo -->
@@ -33,12 +33,10 @@
   </node>
 
 
-	<!-- Pops up a 2 axis virtual joystick to control the robot manually -->
-	<!--  
+	<!-- Pops up a 2 axis virtual joystick to control the robot manually --> 
 	<node name="rqt_robot_steering" pkg="rqt_robot_steering" type="rqt_robot_steering">
     <param name="default_topic" value="mobile_vel/cmd_vel"/>
-  </node>
-	-->
+  </node>	
 
 
 	<!-- Paths to joint controller  description files -->
