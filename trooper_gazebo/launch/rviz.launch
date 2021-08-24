@@ -3,6 +3,12 @@
 
 	 <arg name="trooper" default="$(find trooper_description)/urdf/trooper.urdf"/>
 	 <arg name="gui" default="true" />
+
+	 <arg name="gpu" default="false"/>
+	 <arg name="organize_cloud" default="false"/>
+	 <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find trooper_description)/urdf/trooper.urdf.xacro' organize_cloud:=$(arg organize_cloud) gpu:=$(arg gpu)" />
+
+
 	 <arg name="rvizconfig" default="$(find urdf_tutorial)/rviz/urdf.rviz" />
 
 	 <param name="robot_description" textfile="$(find trooper_description)/urdf/trooper.urdf" />

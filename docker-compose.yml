@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  ros:
+    # image to fetch from docker hub
+    #image: mysql/mysql-server:5.7
+
+    # Path to dockerfile.
+    # '.' represents the current directory in which
+    # docker-compose.yml is present.
+    build: .
+
+    # Image & container name
+    image: instar/gazebo:1.0
+    container_name: trooper
+
+    # Mapping of container port to host
+    #ports:
+    #  - "5000:5000"
+
+    # Mount volume
+    #volumes:
+    #  - "$HOME/.ssh:/root/.ssh"

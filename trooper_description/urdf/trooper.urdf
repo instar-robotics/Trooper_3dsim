@@ -395,7 +395,7 @@
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
     <joint name="trooper__magasin_to_chassis">
-      <hardwareInterface>PositionJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
   </transmission>
 
@@ -405,7 +405,7 @@
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
     <joint name="trooper__left_wheel_to_chassis">
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
     </joint>
   </transmission>
 
@@ -415,7 +415,7 @@
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
     <joint name="trooper__right_wheel_to_chassis">
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
     </joint>
   </transmission>
 

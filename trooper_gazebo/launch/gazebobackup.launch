@@ -19,29 +19,27 @@
 
 
 
-
+<!-- Spawn the Trooper-->
+<arg name="gpu" default="false"/>
+<arg name="organize_cloud" default="true"/>
 	<!-- Path to URDF file -->
-  <!-- <param name="robot_description" textfile="$(find trooper_description)/urdf/trooper.urdf" /> -->
-  <arg name="gpu" default="false"/>
-  <arg name="organize_cloud" default="false"/>
-  <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find trooper_description)/urdf/trooper.urdf.xacro' organize_cloud:=$(arg organize_cloud) gpu:=$(arg gpu)" />
+<param name="robot_description" command="$(find xacro)/xacro --inorder '$(find trooper_description)/urdf/trooper.urdf.xacro' organize_cloud:=$(arg organize_cloud) gpu:=$(arg gpu)" />
 
-<!-- push robot_description to factory and spawn robot in gazebo -->  
-<node pkg="gazebo_ros" type="spawn_model" name="spawn_model" args="-urdf -param /robot_description -model example"/>
-  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
-    <param name="publish_frequency" type="double" value="30.0" />
-  </node>
+<!-- organize_cloud:=$(arg organize_cloud) gpu:=$(arg gpu)"  -->
 
-  
-  <!--
-  <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model"
-        args="-z 1.0 -unpause -urdf -model trooper -param robot_description" respawn="false" output="screen" />
-
-  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" >
-    <param name="publish_frequency" type="double" value="30.0" />
+<!-- Add range filter for laser scan -->
+<!--
+  <node pkg="laser_filters" type="scan_to_scan_filter_chain" name="laser_filter">
+          <rosparam command="load" file="/home/alexis/Trooper/Simulator/src/trooper_description/urdf/hokuyo_config.yaml" />
+          <remap from="scan" to="scan" />
   </node>
   -->
 
+  <!-- push robot_description to factory and spawn robot in gazebo -->
+  <node pkg="gazebo_ros" type="spawn_model" name="spawn_model" args="-urdf -param /robot_description -model trooper"/>
+   <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+     <param name="publish_frequency" type="double" value="30.0" />
+   </node>
 
 	<!-- Pops up a 2 axis virtual joystick to control the robot manually -->
 	<node name="rqt_robot_steering" pkg="rqt_robot_steering" type="rqt_robot_steering">
@@ -66,4 +64,6 @@
 					magasin_motor
 					mobile_vel
           --shutdown-timeout 3"/>
+
+
 </launch>
