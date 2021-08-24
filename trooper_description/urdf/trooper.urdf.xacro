@@ -1,7 +1,10 @@
 <?xml version="1.0"?>
 <robot name="trooper" xmlns:xacro="http://ros.org/wiki/xacro">
-
-<xacro:include filename="$(find velodyne_description)/urdf/VLP-16.urdf.xacro"/>
+	<xacro:property name="M_PI" value="3.1415926535897931" />
+	<xacro:arg name="gpu" default="false"/>
+	<xacro:property name="gpu" value="$(arg gpu)" />
+ 	<xacro:arg name="organize_cloud" default="true"/>
+ 	<xacro:property name="organize_cloud" value="$(arg organize_cloud)" />
 
 <!-- Color materials (Compatible with Rviz but not yet with Gazebo) -->
 	<material name="greenish">
@@ -169,7 +172,7 @@
 
 
 <!-- SENSORS -->
-
+<!--
 	<link name="lidar">
 		<collision>
 		  <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -189,6 +192,7 @@
 		  <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1" />
 		</inertial>
 	</link>
+	-->
 
 <link name="imu_link">
   <inertial>
@@ -257,6 +261,14 @@
     <!--<limit effort="10" velocity="100"/>-->
   </joint>
 
+	<joint name="imu_joint" type="fixed">
+		<axis xyz="1 0 0"/> <!-- 0 1 0 -->
+		<origin xyz="0 0 0.19"/>
+		<parent link="base_link"/>
+		<child link="imu_link"/>
+	</joint>
+
+<!--
   <property name="lidar" value="0.15" />
   <joint name="lidar_joint" type="fixed">
     <axis xyz="0 1 0" />
@@ -264,26 +276,20 @@
     <parent link="base_link"/>
     <child link="lidar"/>
   </joint>
+-->
 
-	<VLP-16 parent="lidar" name="velodyne" topic="/cloud" hz="10" samples="440">
-		<origin xyz="0 0 °" rpy="0 0 0"/>
-		<samples>653</samples>
-		<lasers>4</lasers>
-		<min_angle>-1.3955</min_angle>
-		<max_angle>1.3955</max_angle>
-		<min_range>0.10</min_range>
-		<max_range>5.0</max_range>
-		<hz>10</hz>
-		 </VLP-16>
+<!--
+	<xacro:include filename="$(find velodyne_description)/urdf/VLP-16.urdf.xacro"/>
+	<xacro:VLP-16 parent="lidar" name="velodyne" topic="/cloud" organize_cloud="${organize_cloud}" hz="10" samples="653" gpu="${gpu}" lasers="4" min_angle="-1.3955"
+		max_angle="1.3955" min_range="0.10" max_range="5.0">
+	<origin xyz="0.04 0 0" rpy="0 0 0" />
+	</xacro:VLP-16>
+-->
 
-  <joint name="imu_joint" type="fixed">
-    <axis xyz="1 0 0"/> <!-- 0 1 0 -->
-    <origin xyz="0 0 0.19"/>
-    <parent link="base_link"/>
-    <child link="imu_link"/>
-  </joint>
-
-
+	<xacro:include filename="$(find velodyne_description)/urdf/VLP-16.urdf.xacro"/>
+  <xacro:VLP-16 parent="base_link" name="lidar" topic="/cloud" organize_cloud="${organize_cloud}" hz="10" samples="653" gpu="${gpu}">
+    <origin xyz="0.28 0 0.08" rpy="0 0 0"/>
+  </xacro:VLP-16>
 
 
 
@@ -315,13 +321,12 @@
           <resolution>0.01</resolution>
         </range>
         <noise>
-          <type>gaussian</type>
-					-->
+          <type>gaussian</type>-->
           <!-- Noise parameters based on published spec for Hokuyo laser
                achieving "+-30mm" accuracy at range < 10m.  A mean of 0.0m and
                stddev of 0.01m will put 99.7% of samples within 0.03m of the true
                reading. -->
-							 <!--
+							   <!--
           <mean>0.0</mean>
           <stddev>0.01</stddev>
         </noise>
@@ -331,8 +336,7 @@
         <frameName>lidar</frameName>
       </plugin>
     </sensor>
-  </gazebo>
--->
+  </gazebo>-->
 
 
 
@@ -395,7 +399,7 @@
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
     <joint name="trooper__magasin_to_chassis">
-      <hardwareInterface>PositionJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
   </transmission>
 
@@ -405,7 +409,7 @@
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
     <joint name="trooper__left_wheel_to_chassis">
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
     </joint>
   </transmission>
 
@@ -415,7 +419,7 @@
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
     <joint name="trooper__right_wheel_to_chassis">
-      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
     </joint>
   </transmission>
 
