@@ -19,7 +19,7 @@
 <!-- LINKS -->
 
 <!-- CHASSIS -->  
-	<link name="trooper__chassis">
+	<link name="base_link">
     <inertial>
       <mass value="40"/>
       <origin rpy="0  0  0" xyz="0  0  0"/>
@@ -40,7 +40,7 @@
     </visual>
   </link>
 
-	<gazebo reference="trooper__chassis">
+	<gazebo reference="base_link">
 		<material>Gazebo/White</material>
 	</gazebo>
 
@@ -212,7 +212,7 @@
 <!-- JOINTS -->  
 
 	<joint name="trooper__left_wheel_to_chassis" type="continuous">
-    <parent link="trooper__chassis"/>
+    <parent link="base_link"/>
     <child link="trooper__left_wheel"/>
     <origin rpy="1.5707  1.5707  1.5707" xyz="0.14  0.33  0.15"/>
     <axis xyz="0   1   0"/>
@@ -221,7 +221,7 @@
   </joint>
 
  	<joint name="trooper__right_wheel_to_chassis" type="continuous">
-    <parent link="trooper__chassis"/>
+    <parent link="base_link"/>
     <child link="trooper__right_wheel"/>
     <origin rpy="1.5707 -1.5707  1.5707" xyz="0.14 -0.33  0.15"/>
     <axis xyz="0  -1  0"/>
@@ -231,14 +231,14 @@
 
 
 	<joint name="trooper__rim_to_chassis" type="fixed">
-    <parent link="trooper__chassis"/>
+    <parent link="base_link"/>
     <child link="trooper__rim"/>
     <origin rpy="1.5707 0 0" xyz="0.14 0 0.15"/>
     <axis xyz="0 0 0"/>
   </joint>
 
 	<joint name="trooper__magasin_to_chassis" type="continuous">
-    <parent link="trooper__chassis"/>
+    <parent link="base_link"/>
     <child link="trooper__magasin"/>
     <origin rpy="0  0  1.5707" xyz="0  0  0.55"/>
     <axis xyz="0  0  1"/>
@@ -249,7 +249,7 @@
   <joint name="hokuyo_joint" type="fixed">
     <axis xyz="0 1 0" />
     <origin xyz="0.28 0 0.08" rpy="0 0 0"/>
-    <parent link="trooper__chassis"/>
+    <parent link="base_link"/>
     <child link="hokuyo_link"/>
   </joint>
 
@@ -257,7 +257,7 @@
   <joint name="imu_joint" type="fixed">
     <axis xyz="1 0 0"/> <!-- 0 1 0 -->
     <origin xyz="0 0 0.19"/>
-    <parent link="trooper__chassis"/>
+    <parent link="base_link"/>
     <child link="imu_link"/>
   </joint>
 

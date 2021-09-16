@@ -1,2 +1,2 @@
-rosrun tf static_transform_publisher 0.0 0.0 0.0 0.0 0.0 0.0 map trooper__chassis 100&
+rosrun tf static_transform_publisher 0.0 0.0 0.0 0.0 0.0 0.0 lidar trooper__chassis 100&
 roslaunch trooper_gazebo/launch/rviz.launch model:=trooper.urdf
